@@ -11,7 +11,7 @@ export default function HomePage() {
 
     return (
         <>
-            <Navbar /><i class="fa-solid fa-user"></i>
+            <Navbar />
             <Hero />
             <Awards />
             <Stats />
