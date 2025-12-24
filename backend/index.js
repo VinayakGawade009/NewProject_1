@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import cors from "cors";
 
 dotenv.config();
 
@@ -11,6 +13,9 @@ const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
 
 const app = express();
+
+app.use(cors());
+app.use(bodyParser.json());
 
 // app.get('/addHoldings', async (req, res) => {
 //   let tempHoldings = [
