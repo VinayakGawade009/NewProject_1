@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function OpenAccount() {
 
     return (
@@ -9,7 +11,7 @@ export default function OpenAccount() {
 
                     <p className="fs-5 mb-5">Modern platforms and apps, ₹0 investments, and flat ₹20 intraday and F&O trades.</p>
 
-                    <button className="p-2 btn fs-5" style={{width: "27%", margin: "0 auto", backgroundColor: "#387ed1", color: "white", borderRadius: "3px"}}>Sign up for free</button>
+                    <Link to="/signup"><button className="p-2 btn fs-5" style={{width: "27%", margin: "0 auto", backgroundColor: "#387ed1", color: "white", borderRadius: "3px"}}>Sign up for free</button></Link>
                 </div>
             </div>
         </>

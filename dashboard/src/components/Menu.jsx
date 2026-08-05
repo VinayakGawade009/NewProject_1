@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Menu.css";
 import GeneralContext from "./GeneralContext";
+import ProfileModal from "./ProfileModal";
 
 // Material UI Imports
 import { Menu as MuiMenu, MenuItem, Avatar, ListItemIcon, Divider } from "@mui/material";
@@ -10,8 +11,9 @@ import { Logout, Person } from "@mui/icons-material";
 
 const Menu = () => {
   const [selectedMenu, setSelectedMenu] = useState(0);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   
-  // 1. Get user from Context (No more axios here!)
+  // 1. Get user from Context
   const { user } = useContext(GeneralContext);
 
   // Material UI Menu State
@@ -24,6 +26,11 @@ const Menu = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenProfile = () => {
+    handleClose(); // Close the dropdown
+    setIsProfileOpen(true); // Open the modal
   };
 
   const handleMenuClick = (index) => {
@@ -99,7 +106,6 @@ const Menu = () => {
           onClick={handleClick} 
           style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "10px" }}
         >
-          {/* We can use MUI Avatar or your custom one. MUI Avatar looks great. */}
           <Avatar sx={{ width: 30, height: 30, bgcolor: "#e0e0e0", color: "#387ed1", fontSize: "0.9rem", fontWeight: "bold" }}>
              {initials}
           </Avatar>
@@ -141,17 +147,15 @@ const Menu = () => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          {/* Option 1: Profile (Disabled for now) */}
-          <MenuItem onClick={handleClose}>
+          {/* Option 1: Profile */}
+          <MenuItem onClick={handleOpenProfile}>
             <ListItemIcon>
               <Person fontSize="small" />
             </ListItemIcon>
             Profile
-          </MenuItem>
+          </MenuItem>          
 
-          <Divider />
-
-          {/* Option 2: Logout (Red Color) */}
+          {/* Option 2: Logout */}
           <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
             <ListItemIcon>
               <Logout fontSize="small" color="error" />
@@ -159,6 +163,13 @@ const Menu = () => {
             Logout
           </MenuItem>
         </MuiMenu>
+        
+        {/* MODAL COMPONENT */}
+        <ProfileModal 
+          open={isProfileOpen} 
+          onClose={() => setIsProfileOpen(false)} 
+          user={user} 
+        />
         
       </div>
     </div>

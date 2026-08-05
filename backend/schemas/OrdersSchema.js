@@ -20,6 +20,13 @@ const OrdersSchema = new Schema({
         uppercase: true, // Automatically converts "buy" -> "BUY"
         required: true
     },
+    product: {
+        type: String,
+        enum: ['CNC', 'MIS'], // CNC = Holdings, MIS = Positions
+        required: true, 
+        uppercase: true,
+        default: 'CNC' // Default to Holdings if not specified
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",

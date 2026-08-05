@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Your password is required"],
     minlength: 6,
   },
+  balance: {
+    type: Number,
+    default: 100000, // Default 1 Lakh virtual cash for new accounts
+  },
   createdAt: {
     type: Date,
     default: Date.now,
