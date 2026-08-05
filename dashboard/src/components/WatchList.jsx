@@ -55,6 +55,7 @@ const WatchList = () => {
           className="search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} // Update search state
+          style={{color: "grey"}}
         />
         <span className="counts"> {filteredWatchlist.length} / {watchlist.length}</span>
       </div>
