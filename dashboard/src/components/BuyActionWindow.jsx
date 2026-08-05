@@ -10,24 +10,38 @@ import "./BuyActionWindow.css";
 const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1); // no of stock
   const [stockPrice, setStockPrice] = useState(0.0); // price of stock
+  const [productType, setProductType] = useState("CNC"); // Default to Long-term
 
   const { closeBuyWindow, triggerRefresh } = useContext(GeneralContext);
 
   const handleBuyClick = async () => {
+    if (stockQuantity <= 0 || stockPrice <= 0) {
+      alert("Quantity and Price must be greater than 0");
+      return;
+    }
+
     try {
-      await axios.post("http://localhost:3002/newOrder",
+      const response = await axios.post(
+        "http://localhost:3002/newOrder",
         {
           name: uid,
-          qty: stockQuantity,
-          price: stockPrice,
+          qty: Number(stockQuantity),
+          price: Number(stockPrice),
           mode: "BUY",
-        }, { withCredentials: true });
+          product: productType,
+        },
+        { withCredentials: true }
+      );
 
-      console.log("BuyWindow: Order Success, calling triggerRefresh...");
-      triggerRefresh();
-      closeBuyWindow();
+      if (response.data.success) {
+        alert(response.data.message);
+        triggerRefresh();
+        closeBuyWindow();
+      }
     } catch (error) {
-      console.error("Error in buy: ", error);
+      // Safely extract backend error message
+      const errorMsg = error.response?.data?.message || "Something went wrong";
+      alert(errorMsg);
     }
 
   };
@@ -36,43 +50,73 @@ const BuyActionWindow = ({ uid }) => {
     closeBuyWindow();
   };
 
-  return (
-    <div className="container" id="buy-window" draggable="true">
-      <div className="regular-order">
-        <div className="inputs">
-          <fieldset>
-            <legend>Qty.</legend>
-            <input
-              type="number"
-              name="qty"
-              id="qty"
-              onChange={(e) => setStockQuantity(e.target.value)}
-              value={stockQuantity}
-            />
-          </fieldset>
-          <fieldset>
-            <legend>Price</legend>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              step="0.05"
-              onChange={(e) => setStockPrice(e.target.value)}
-              value={stockPrice}
-            />
-          </fieldset>
-        </div>
-      </div>
+  const marginRequired = (Number(stockQuantity) * Number(stockPrice)).toFixed(2);
 
-      <div className="buttons">
-        <span>Margin required ₹140.65</span>
-        <div>
-          <button className="btn btn-blue" onClick={handleBuyClick}>
-            Buy
-          </button>
-          <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
-            Cancel
-          </Link>
+  return (
+    <div 
+      className="modal-overlay" 
+      style={{
+        position: "fixed", top: 0, left: 0, width: "100%", height: "100%", 
+        backgroundColor: "rgba(0,0,0,0.5)", zIndex: 999,
+        display: "flex", justifyContent: "left", alignItems: "center"
+      }}
+    >
+      <div className="container" id="buy-window" style={{ position: "relative", zIndex: 1000 }}>
+        
+        <div style={{ padding: "15px", backgroundColor: "#387ed1", color: "white", borderTopLeftRadius: "5px", borderTopRightRadius: "5px" }}>
+          <h3 style={{ margin: 0 }}>Buy {uid}</h3>
+        </div>
+
+        <div className="regular-order" style={{ padding: "15px" }}>
+          
+          <div style={{ marginBottom: "15px", display: "flex", gap: "20px" }}>
+            <label>
+              <input type="radio" value="MIS" checked={productType === "MIS"} onChange={(e) => setProductType(e.target.value)} />
+              MIS (Intraday)
+            </label>
+            <label>
+              <input type="radio" value="CNC" checked={productType === "CNC"} onChange={(e) => setProductType(e.target.value)} />
+              CNC (Long-term)
+            </label>
+          </div>
+
+          <div className="inputs">
+            <fieldset>
+              <legend>Qty.</legend>
+              <input
+                type="number"
+                name="qty"
+                id="qty"
+                min="1"
+                onChange={(e) => setStockQuantity(e.target.value)}
+                value={stockQuantity}
+              />
+            </fieldset>
+            <fieldset>
+              <legend>Price</legend>
+              <input
+                type="number"
+                name="price"
+                id="price"
+                step="0.05"
+                min="0"
+                onChange={(e) => setStockPrice(e.target.value)}
+                value={stockPrice}
+              />
+            </fieldset>
+          </div>
+        </div>
+
+        <div className="buttons">
+          <span>Margin required ₹{marginRequired}</span>
+          <div>
+            <button className="btn btn-blue" onClick={handleBuyClick}>
+              Buy
+            </button>
+            <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
+              Cancel
+            </Link>
+          </div>
         </div>
       </div>
     </div>

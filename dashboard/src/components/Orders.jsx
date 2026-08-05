@@ -37,6 +37,7 @@ const Orders = () => {
                   <th>Name</th>
                   <th>Qty.</th>
                   <th>Price</th>
+                  <th>Product</th>
                   <th>Type</th>
                 </tr>
               </thead>
@@ -47,6 +48,7 @@ const Orders = () => {
                     <td>{stock.name}</td>
                     <td>{stock.qty}</td>
                     <td>{stock.price?.toFixed(2)}</td>
+                    <td>{stock.product}</td>
                     <td className={stock.mode === "BUY" ? "buy" : "sell"}>{stock.mode}</td>
                   </tr>
                 ))}

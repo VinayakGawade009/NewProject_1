@@ -220,73 +220,96 @@ app.get("/allPositions", verifyUser, async (req, res) => {
 });
 
 app.post("/newOrder", verifyUser, async (req, res) => {
-  // We expect the frontend to send 'product' (CNC or MIS)
-  const { name, qty, price, mode, product } = req.body;
+  try {
+    // We expect the frontend to send 'product' (CNC or MIS)
+    const { name, qty, price, mode, product } = req.body;
 
-  // Save the Order Log
-  const newOrder = new OrdersModel({
-    name,
-    qty,
-    price,
-    mode: "BUY",
-    product: product || "CNC", // Default to CNC if missing
-    user: req.user._id,
-  });
-
-  await newOrder.save();
-
-  if (product === "MIS") {
-    // === UPDATE POSITIONS (Intraday) ===
-    let position = await PositionsModel.findOne({ name, product: "MIS", user: req.user._id });
-
-    if (!position) {
-      // Create new position
-      const newPosition = new PositionsModel({
-        product: "MIS",
-        name,
-        qty,
-        avg: price,
-        price,
-        net: 0, // Will be calculated on frontend or via virtuals
-        day: 0,
-        user: req.user._id,
-      });
-      await newPosition.save();
-    } else {
-      // Update existing position (Averaging)
-      const totalQty = position.qty + qty;
-      const newAvg = (position.avg * position.qty + price * qty) / totalQty;
-      position.qty = totalQty;
-      position.avg = newAvg;
-      position.price = price;
-      await position.save();
+    // 1. Basic Validation
+    if (qty <= 0 || price <= 0) {
+      return res.status(400).json({ success: false, message: "Invalid quantity or price" });
     }
-  } else {
-    // === UPDATE HOLDINGS (Delivery / CNC) ===
-    let holding = await HoldingsModel.findOne({ name, user: req.user._id });
 
-    if (!holding) {
-      const newHolding = new HoldingsModel({
-        name,
-        qty,
-        avg: price,
-        price,
-        net: 0,
-        day: 0,
-        user: req.user._id,
+    // 2. Balance Validation
+    const totalCost = qty * price;
+    if (req.user.balance < totalCost) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `Insufficient balance. Required: ₹${totalCost.toFixed(2)}, Available: ₹${req.user.balance.toFixed(2)}` 
       });
-      await newHolding.save();
-    } else {
-      const totalQty = holding.qty + qty;
-      const newAvg = (holding.avg * holding.qty + price * qty) / totalQty;
-      holding.qty = totalQty;
-      holding.avg = newAvg;
-      holding.price = price;
-      await holding.save();
     }
+
+    // 3. Deduct Balance
+    req.user.balance -= totalCost;
+    await req.user.save();
+
+    // 4. Save the Order Log
+    const newOrder = new OrdersModel({
+      name,
+      qty,
+      price,
+      mode: "BUY",
+      product: product || "CNC", // Default to CNC if missing
+      user: req.user._id,
+    });
+
+    await newOrder.save();
+
+    // 5. Update Portfolio
+    if (product === "MIS") {
+      // === UPDATE POSITIONS (Intraday) ===
+      let position = await PositionsModel.findOne({ name, product: "MIS", user: req.user._id });
+
+      if (!position) {
+        // Create new position
+        const newPosition = new PositionsModel({
+          product: "MIS",
+          name,
+          qty,
+          avg: price,
+          price,
+          net: 0, // Will be calculated on frontend or via virtuals
+          day: 0,
+          user: req.user._id,
+        });
+        await newPosition.save();
+      } else {
+        // Update existing position (Averaging)
+        const totalQty = position.qty + qty;
+        const newAvg = (position.avg * position.qty + price * qty) / totalQty;
+        position.qty = totalQty;
+        position.avg = newAvg;
+        position.price = price;
+        await position.save();
+      }
+    } else {
+      // === UPDATE HOLDINGS (Delivery / CNC) ===
+      let holding = await HoldingsModel.findOne({ name, user: req.user._id });
+
+      if (!holding) {
+        const newHolding = new HoldingsModel({
+          name,
+          qty,
+          avg: price,
+          price,
+          net: 0,
+          day: 0,
+          user: req.user._id,
+        });
+        await newHolding.save();
+      } else {
+        const totalQty = holding.qty + qty;
+        const newAvg = (holding.avg * holding.qty + price * qty) / totalQty;
+        holding.qty = totalQty;
+        holding.avg = newAvg;
+        holding.price = price;
+        await holding.save();
+      }
+    }
+
+    res.status(200).json({ success: true, message: "Order placed successfully!" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error during buy order" });
   }
-
-  res.send("Order saved!");
 });
 
 app.get("/allOrders", verifyUser, async (req, res) => {
@@ -295,58 +318,55 @@ app.get("/allOrders", verifyUser, async (req, res) => {
 });
 
 app.post("/sellOrder", verifyUser, async (req, res) => {
-  const { name, qty, price, product } = req.body;
+  try {
+    const { name, qty, price, product } = req.body;
 
-  const sellOrder = new OrdersModel({
-    name,
-    qty,
-    price,
-    mode: "SELL",
-    product: product || "CNC",
-    user: req.user._id,
-  });
-
-  await sellOrder.save();
-  res.send("Sell order saved");
-
-  const holding = await HoldingsModel.findOne({ name, user: req.user._id });
-
-  if (product === "MIS") {
-    // === SELL FROM POSITIONS ===
-    const position = await PositionsModel.findOne({ name, product: "MIS", user: req.user._id });
-
-    if (!position) return res.status(400).send("No open position found for this stock");
-    if (position.qty < qty) return res.status(400).send("Not enough quantity in positions");
-
-    // Reduce Quantity
-    position.qty -= qty;
-    // P&L Realization logic would go here in a real app, 
-    // but for now, we just update the live price.
-    position.price = price;
-
-    if (position.qty === 0) {
-      await PositionsModel.deleteOne({ _id: position._id });
-    } else {
-      await position.save();
+    if (qty <= 0 || price <= 0) {
+      return res.status(400).json({ success: false, message: "Invalid quantity or price" });
     }
 
-  } else {
-    // === SELL FROM HOLDINGS ===
-    const holding = await HoldingsModel.findOne({ name, user: req.user._id });
+    // 1. Verify Ownership & Deduct Shares First
+    if (product === "MIS") {
+      const position = await PositionsModel.findOne({ name, product: "MIS", user: req.user._id });
+      if (!position) return res.status(400).json({ success: false, message: "No open position found for this stock" });
+      if (position.qty < qty) return res.status(400).json({ success: false, message: `Cannot sell ${qty}. You only own ${position.qty}.` });
 
-    if (!holding) return res.status(400).send("No holdings found to sell");
-    if (holding.qty < qty) return res.status(400).send("Not enough quantity in holdings");
+      position.qty -= qty;
+      position.price = price;
+      if (position.qty === 0) await PositionsModel.deleteOne({ _id: position._id });
+      else await position.save();
 
-    holding.qty -= qty;
-    holding.price = price;
-
-    if (holding.qty === 0) {
-      await HoldingsModel.deleteOne({ _id: holding._id });
     } else {
-      await holding.save();
+      const holding = await HoldingsModel.findOne({ name, user: req.user._id });
+      if (!holding) return res.status(400).json({ success: false, message: "No holdings found to sell" });
+      if (holding.qty < qty) return res.status(400).json({ success: false, message: `Cannot sell ${qty}. You only own ${holding.qty}.` });
+
+      holding.qty -= qty;
+      holding.price = price;
+      if (holding.qty === 0) await HoldingsModel.deleteOne({ _id: holding._id });
+      else await holding.save();
     }
+
+    // 2. Add Earnings to Balance
+    const earnings = qty * price;
+    req.user.balance += earnings;
+    await req.user.save();
+
+    // 3. Save the Order Log
+    const sellOrder = new OrdersModel({
+      name, 
+      qty, 
+      price, 
+      mode: "SELL",
+      product: product || "CNC",
+      user: req.user._id,
+    });
+    await sellOrder.save();
+
+    res.status(200).json({ success: true, message: "Sell order executed successfully!" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error during sell order" });
   }
-
 });
 
 // New auth route registration
