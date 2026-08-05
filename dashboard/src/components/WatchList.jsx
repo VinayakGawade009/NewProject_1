@@ -5,16 +5,24 @@ import { BarChartOutlined, KeyboardArrowDown, KeyboardArrowUp, MoreHoriz } from 
 import GeneralContext from './GeneralContext';
 import { DoughnumChart } from './DoughnutChart';
 
-const labels = watchlist.map((subArray) => subArray["name"]);
-
 const WatchList = () => {
+  // 1. Search State
+  const [searchTerm, setSearchTerm] = useState("");
 
+  // 2. Filter logic for the watchlist
+  const filteredWatchlist = watchlist.filter((stock) =>
+    stock.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // 3. Keep original chart logic, but map it to the filtered results
+  const labels = filteredWatchlist.map((subArray) => subArray["name"]);
+  
   const data = {
     labels,
     datasets: [
       {
         label: "Price",
-        data: watchlist.map((stock) => stock.price),
+        data: filteredWatchlist.map((stock) => stock.price),
         backgroundColor: [
           'rgba(255, 99, 132, 0.5)',
           'rgba(54, 162, 235, 0.5)',
@@ -36,33 +44,6 @@ const WatchList = () => {
     ],
   };
 
-  // export const data = {
-  //   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  //   datasets: [
-  //     {
-  //       label: '# of Votes',
-  //       data: [12, 19, 3, 5, 2, 3],
-  //       backgroundColor: [
-  //         'rgba(255, 99, 132, 0.2)',
-  //         'rgba(54, 162, 235, 0.2)',
-  //         'rgba(255, 206, 86, 0.2)',
-  //         'rgba(75, 192, 192, 0.2)',
-  //         'rgba(153, 102, 255, 0.2)',
-  //         'rgba(255, 159, 64, 0.2)',
-  //       ],
-  //       borderColor: [
-  //         'rgba(255, 99, 132, 1)',
-  //         'rgba(54, 162, 235, 1)',
-  //         'rgba(255, 206, 86, 1)',
-  //         'rgba(75, 192, 192, 1)',
-  //         'rgba(153, 102, 255, 1)',
-  //         'rgba(255, 159, 64, 1)',
-  //       ],
-  //       borderWidth: 1,
-  //     },
-  //   ],
-  // };
-
   return (
     <div className="watchlist-container">
       <div className="search-container">
@@ -72,16 +53,21 @@ const WatchList = () => {
           id="search"
           placeholder="Search eg:infy, bse, nifty fut weekly, gold mcx"
           className="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // Update search state
         />
-        <span className="counts"> { watchlist.length } / 50</span>
+        <span className="counts"> {filteredWatchlist.length} / {watchlist.length}</span>
       </div>
 
       <ul className="list">
-        {watchlist.map((stock, index) => {
-          return (
-            <WatchListItem stock={stock} key={index} />
-          );
+        {filteredWatchlist.map((stock, index) => {
+          return <WatchListItem stock={stock} key={index} />;
         })}
+        {filteredWatchlist.length === 0 && (
+          <p style={{ textAlign: "center", marginTop: "20px", color: "grey" }}>
+            No stocks match your search.
+          </p>
+        )}
       </ul>
 
       <DoughnumChart data={data} />
@@ -94,18 +80,10 @@ export default WatchList;
 const WatchListItem = ({stock}) => {
   const [showWatchListActions, setShowWatchListActions] = useState(false);
 
-  const handleMouseEnter = (e) => {
-    setShowWatchListActions(true);
-  }
-
-  const handleMouseLeave = (e) => {
-    setShowWatchListActions(false);
-  }
-
   return (
     <li 
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setShowWatchListActions(true)}
+      onMouseLeave={() => setShowWatchListActions(false)}
     >
       <div className="item">
         <p className={stock.isDown ? "down" : "up"}>{stock.name}</p>
@@ -125,46 +103,21 @@ const WatchListItem = ({stock}) => {
 };
 
 const WatchListActions = ({uid}) => {
-  const { openBuyWindow } = useContext(GeneralContext)
-  const { openSellWindow } = useContext(GeneralContext);
+  const { openBuyWindow, openSellWindow } = useContext(GeneralContext);
   
   return (
     <span className='actions'>
-      <Tooltip
-        title="Buy (B)"
-        placement="top"
-        arrow
-        TransitionComponent={Grow}
-      >
+      <Tooltip title="Buy (B)" placement="top" arrow TransitionComponent={Grow}>
         <button className='buy' onClick={() => openBuyWindow(uid)}>Buy</button>
       </Tooltip>
-      <Tooltip
-        title="Sell (S)"
-        placement="top"
-        arrow
-        TransitionComponent={Grow}
-      >
+      <Tooltip title="Sell (S)" placement="top" arrow TransitionComponent={Grow}>
         <button className='sell' onClick={() => openSellWindow(uid)}>Sell</button>
       </Tooltip>
-      <Tooltip
-        title="Analytics (A)"
-        placement="top"
-        arrow
-        TransitionComponent={Grow}
-      >
-        <button className='action'>
-          <BarChartOutlined className='icon' />
-        </button>
+      <Tooltip title="Analytics (A)" placement="top" arrow TransitionComponent={Grow}>
+        <button className='action'><BarChartOutlined className='icon' /></button>
       </Tooltip>
-      <Tooltip
-        title="More"
-        placement="top"
-        arrow
-        TransitionComponent={Grow}
-      >
-        <button className='action'>
-          <MoreHoriz className='icon' />
-        </button>
+      <Tooltip title="More" placement="top" arrow TransitionComponent={Grow}>
+        <button className='action'><MoreHoriz className='icon' /></button>
       </Tooltip>
     </span>
   );
