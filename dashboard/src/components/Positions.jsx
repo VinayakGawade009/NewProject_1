@@ -40,7 +40,8 @@ const Positions = () => {
           </thead>
 
           <tbody>
-            {positions.map((stock, index) => {
+            {/* FIX: Spread and reverse to show latest positions first */}
+            {[...positions].reverse().map((stock, index) => {
               const curValue = stock.price * stock.qty;
               const isProfit = curValue - stock.avg * stock.qty >= 0.0;
               const profClass = isProfit ? "profit" : "loss";

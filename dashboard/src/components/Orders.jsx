@@ -34,6 +34,7 @@ const Orders = () => {
             <table>
               <thead>
                 <tr>
+                  <th>Time</th> {/* NEW COLUMN */}
                   <th>Name</th>
                   <th>Qty.</th>
                   <th>Price</th>
@@ -43,15 +44,27 @@ const Orders = () => {
               </thead>
 
               <tbody>
-                {orders.map((stock, index) => (
-                  <tr key={index}>
-                    <td>{stock.name}</td>
-                    <td>{stock.qty}</td>
-                    <td>{stock.price?.toFixed(2)}</td>
-                    <td>{stock.product}</td>
-                    <td className={stock.mode === "BUY" ? "buy" : "sell"}>{stock.mode}</td>
-                  </tr>
-                ))}
+                {/* FIX: Spread into a new array and reverse it to show latest first */}
+                {[...orders].reverse().map((stock, index) => {
+                  
+                  // Safely format the date if it exists in your DB
+                  const orderTime = stock.createdAt 
+                    ? new Date(stock.createdAt).toLocaleString('en-IN', {
+                        day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+                      }) 
+                    : "-";
+
+                  return (
+                    <tr key={index}>
+                      <td>{orderTime}</td>
+                      <td>{stock.name}</td>
+                      <td>{stock.qty}</td>
+                      <td>{stock.price?.toFixed(2)}</td>
+                      <td>{stock.product}</td>
+                      <td className={stock.mode === "BUY" ? "buy" : "sell"}>{stock.mode}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
