@@ -31,13 +31,13 @@ const Menu = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:3002/auth/logout",
+        `${import.meta.env.VITE_BACKEND_URL}/auth/logout`,
         {},
         { withCredentials: true }
       );
       handleClose();
       setTimeout(() => {
-        window.location.href = "http://localhost:5174";
+        window.location.href = import.meta.env.VITE_FRONTEND_URL;
       }, 500);
     } catch (err) {
       console.error("Logout failed", err);

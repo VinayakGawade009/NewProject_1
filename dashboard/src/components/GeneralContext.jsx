@@ -54,10 +54,10 @@ export const GeneralContextProvider = (props) => {
     try {
       // Fetch everything in parallel for speed
       const [userRes, holdingsRes, ordersRes, positionsRes] = await Promise.all([
-        axios.get("http://localhost:3002/auth/me", { withCredentials: true }),
-        axios.get("http://localhost:3002/allHoldings", { withCredentials: true }),
-        axios.get("http://localhost:3002/allOrders", { withCredentials: true }),
-        axios.get("http://localhost:3002/allPositions", { withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, { withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/allHoldings`, { withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/allOrders`, { withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/allPositions`, { withCredentials: true }),
       ]);
 
       if (userRes.data.success) {

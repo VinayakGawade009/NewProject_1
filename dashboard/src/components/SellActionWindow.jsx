@@ -20,7 +20,7 @@ const SellActionWindow = ({ uid }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3002/sellOrder",
+        `${import.meta.env.VITE_BACKEND_URL}/sellOrder`,
         {
           name: uid,
           qty: Number(stockQuantity),

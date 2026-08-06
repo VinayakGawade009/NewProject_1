@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const res = await axios.get("http://localhost:3002/auth/me", {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, {
           withCredentials: true,
         });
 
@@ -36,7 +36,7 @@ const Home = () => {
 
   // Redirect if not verified
   if (isVerified === false) {
-    window.location.href = "http://localhost:5174/login";
+    window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
     return null;
   }
 

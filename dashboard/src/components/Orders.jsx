@@ -5,19 +5,8 @@ import { Link } from "react-router-dom";
 import GeneralContext from "./GeneralContext";
 
 const Orders = () => {
-  // const [allOrders, setAllOrders] = useState([]);
-  // const { refreshCount } = useContext(GeneralContext);
 
   const { orders } = useContext(GeneralContext);
-
-  // useEffect(() => {
-  //   axios.get("http://localhost:3002/allOrders", { withCredentials: true }).then((res) => {
-  //     console.log(res.data);
-  //     setAllOrders(res.data);
-  //   }).catch((err) => {
-  //     console.error("Error fetching orders:", err);
-  //   });
-  // }, [refreshCount]);
 
   return (
     <div className="orders">

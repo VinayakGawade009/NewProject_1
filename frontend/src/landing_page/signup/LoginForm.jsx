@@ -23,7 +23,7 @@ export default function LoginForm() {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:3002/auth/login",
+        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
         { ...inputValue },
         { withCredentials: true }
       );
@@ -31,7 +31,7 @@ export default function LoginForm() {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "http://localhost:5173";
+          window.location.href = import.meta.env.VITE_DASHBOARD_URL;
         }, 1000);
       } else {
         handleError(message);

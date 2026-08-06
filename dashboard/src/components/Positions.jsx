@@ -1,25 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-
-// import { positions } from "../data/data";
-// import axios from "axios";
-
 import GeneralContext from "./GeneralContext";
 
 const Positions = () => {
 
-  // const [allPositions, setAllPositions] = useState([]);
-  // const { refreshCount } = useContext(GeneralContext);
-
   const { positions } = useContext(GeneralContext);
-
-  // useEffect(() => {
-  //   axios.get("http://localhost:3002/allPositions", { withCredentials: true }).then((res) => {
-  //     console.log(res.data);
-  //     setAllPositions(res.data);
-  //   }).catch((err) => {
-  //     console.error("Error fetching positions:", err);
-  //   });
-  // }, [refreshCount]);
 
   return (
     <>
