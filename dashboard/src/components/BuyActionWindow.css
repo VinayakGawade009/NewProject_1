@@ -219,3 +219,72 @@
     color: #fff;
   }
   
+
+  /* =========================================================
+   MISSING BUTTON STYLE FOR SELL WINDOW
+   ========================================================= */
+.btn-red {
+  background: #df514c;
+  color: #fff;
+  border: none;
+}
+
+.btn-red:hover {
+  background: #f0645f;
+}
+
+/* =========================================================
+   MOBILE RESPONSIVENESS (Screens 768px and smaller)
+   ========================================================= */
+@media (max-width: 768px) {
+  
+  /* 1. Fix the main modal size and centering */
+  .container {
+    width: 90% !important;      /* Overrides the 40% width */
+    height: auto !important;    /* Lets the content dictate height instead of 63% */
+    left: 5% !important;        /* Centers it horizontally */
+    top: 20% !important;        /* Pushes it down slightly from the top */
+    bottom: auto !important;    /* Removes the bottom anchor */
+  }
+
+  .regular-order {
+    padding: 15px 15px 30px 15px; 
+  }
+
+  /* 2. Stack the Qty and Price inputs */
+  .inputs {
+    flex-direction: column;     
+    gap: 15px;
+  }
+
+  .inputs fieldset {
+    max-width: 100%;            /* Allows fieldset to expand fully */
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .inputs fieldset input {
+    max-width: 100%;            /* Allows input to expand fully */
+    width: 100%;
+  }
+
+  /* 3. Reformat the bottom buttons and margin text */
+  .buttons {
+    flex-direction: column;     /* Stacks the Margin requirement text above the buttons */
+    position: static;           /* Removes the awkward top: 10% positioning */
+    gap: 15px;
+    padding: 0 15px 20px 15px;
+  }
+
+  .buttons > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttons .btn {
+    flex: 1;                    /* Makes Buy/Sell and Cancel buttons equal width */
+    text-align: center;
+    margin: 0 5px;              /* Adds breathing room between buttons */
+  }
+}
