@@ -573,7 +573,10 @@ hr {
   align-items: center;
   box-shadow: 0px 0px 4px 2px rgb(236, 235, 235);
   box-sizing: border-box;
-  z-index: 9;
+  z-index: 100; /* Increased z-index to stay above charts and modals */
+  position: sticky; /* Makes the bar stick to the screen */
+  top: 0; /* Sticks it exactly at the top edge */
+  background-color: #ffffff; /* Solid white background so scrolling text hides behind it */
 }
 
 .indices-container {
@@ -844,3 +847,149 @@ hr {
 
 
 
+/* =========================================================
+   MOBILE RESPONSIVENESS (Screens 768px and smaller)
+   ========================================================= */
+@media (max-width: 768px) {
+  
+  /* --- STEP 1: THE MAIN LAYOUT FLIP ---
+     Instead of sitting side-by-side, we stack the Watchlist 
+     and the Main Dashboard Content on top of each other. */
+  .dashboard-container {
+    flex-direction: column; /* Stacks elements vertically */
+    height: auto;           /* Allows the page to scroll naturally */
+  }
+
+  .content {
+    order: 1;               /* Forces Main Content to the top */
+    width: 100%;            /* Takes up full screen width */
+    height: auto;
+    padding: 5% 5%;
+  }
+
+  .watchlist-container {
+    order: 2;               /* Forces Watchlist to the bottom */
+    width: 100%;            /* Takes up full screen width */
+    height: 60vh;           /* Gives watchlist a nice fixed height on mobile */
+    border-top: 2px solid #eee; /* Adds a line separating it from the dashboard */
+  }
+
+
+  /* --- STEP 2: NAVIGATION MENU TWEAKS ---
+     Hides the stock indices to save space, and makes the 
+     menu items (Orders, Holdings, etc.) swipeable. */
+  .topbar-container {
+    height: auto;
+    flex-direction: column; 
+    position: sticky;
+    top: -65px; /* MAGIC NUMBER: Scrolls the logo/profile out of view, then sticks the menu */
+    background-color: white; /* Prevents text from bleeding through */
+    z-index: 100; /* Keeps it above the charts and modals */
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.05); /* Adds a subtle shadow when scrolling */
+  }
+
+  .indices-container {
+    display: none;          /* Hides NIFTY/SENSEX on mobile */
+  }
+
+  .menu-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;    /* Keeps Logo and Profile on the same row */
+    flex-wrap: wrap;        /* Allows the links to wrap to the next line */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+  }
+
+  .logo-img {
+    order: 1;               /* Top Left */
+  }
+
+  .profile {
+    order: 2;               /* Top Right */
+    margin: 0;              /* Removes unnecessary margins */
+  }
+
+  .menus {
+    order: 3;               /* Pushed to the row below Logo and Profile */
+    width: 100%;
+    margin-top: 5px;  
+    margin-bottom: -25px;
+    flex-direction: column;
+  }
+
+  .menus ul {
+    display: flex;
+    overflow-x: auto;       
+    white-space: nowrap;    
+    width: 100%;
+    padding-left: 0;
+    padding-bottom: 10px;   
+  }
+
+  .desktop-divider {
+    display: none;          /* Hides the vertical line on mobile */
+  }
+
+
+  /* --- STEP 3: SWIPEABLE DATA TABLES ---
+     Traps the table inside a scrolling box so it doesn't 
+     break the phone screen width. */
+  .order-table {
+    overflow-x: auto;       /* Enables horizontal swiping */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iPhones */
+    width: 100%;
+  }
+
+  .order-table table {
+    min-width: 600px;       /* Forces table to stay wide so text isn't squished */
+  }
+
+
+  /* --- STEP 4: STACKING STATS COLUMNS ---
+     Changes side-by-side stats (like Funds and Summary)
+     into a vertical list. */
+  .row {
+    flex-direction: column; /* Stacks columns */
+    margin-top: 10%;
+  }
+
+  .col {
+    flex-basis: 100%;
+    width: 100%;
+    margin-bottom: 25px;    /* Adds breathing room between stacked stats */
+  }
+
+  .data {
+    width: 100%;            /* Ensures Summary stats take full width */
+  }
+
+  .funds {
+    flex-direction: column; /* Stacks the Add Funds / Withdraw buttons */
+    text-align: center;
+  }
+
+  .funds .btn {
+    margin-top: 10px;
+    width: 100%;            /* Makes buttons stretch across the screen */
+    box-sizing: border-box;
+  }
+
+
+  /* --- STEP 5: ACTION MODALS (BUY/SELL) ---
+     Ensures the popup boxes fit inside a phone screen. */
+  #buy-window, 
+  #sell-window {
+    width: 90%;             /* Shrinks modal to 90% of phone width */
+    max-width: 400px;
+  }
+
+  .regular-order .inputs {
+    flex-direction: column; /* Stacks Qty and Price inputs */
+  }
+
+  .regular-order .inputs fieldset {
+    margin-bottom: 10px;
+  }
+}
