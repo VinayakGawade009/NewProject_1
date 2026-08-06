@@ -26,16 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 
 // CORS with proper configuration
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:5174",
-  ],
-  methods: [
-    "GET", "POST", "PUT", "DELETE",
-  ],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: ["https://zerodha-frontend-eight-alpha.vercel.app", "https://zerodha-dashboard-topaz.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 
