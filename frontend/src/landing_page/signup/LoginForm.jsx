@@ -31,7 +31,7 @@ export default function LoginForm() {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "http://localhost:5174";
+          window.location.href = "http://localhost:5173";
         }, 1000);
       } else {
         handleError(message);

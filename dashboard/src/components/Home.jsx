@@ -36,7 +36,7 @@ const Home = () => {
 
   // Redirect if not verified
   if (isVerified === false) {
-    window.location.href = "http://localhost:5173/login";
+    window.location.href = "http://localhost:5174/login";
     return null;
   }
 
