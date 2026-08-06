@@ -1,11 +1,11 @@
 export default function CreateTicket() {
-
     return (
         <>
-            <div className="px-5">
+            <div className="container p-3 p-md-5">
                 <div className="row">
 
-                    <div style={{ padding: "6vh 8vw 6vh 6vw" }} className="col-9">
+                    {/* FIX: Changed col-9 to col-12 col-md-8 and standardized padding */}
+                    <div className="col-12 col-md-8 p-3 p-md-4">
 
                         <div className="option" style={{ marginBottom: "4vh" }}>
                             <div style={{ width: "100%", border: "2px solid #f6f6f6" }} type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
@@ -20,13 +20,13 @@ export default function CreateTicket() {
                                 </div>
                             </div>
                             <div className="collapse" id="collapseExample1" style={{ width: "98%", margin: "auto" }}>
-                                <div className="card card-body">
-                                    <ul>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Resident individual</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Minor</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Non Resident Indian (NRI)</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Company, Partnership, HUF and LLP</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Glossary</li></a>
+                                <div className="card card-body border-0 shadow-sm mt-2">
+                                    <ul className="list-unstyled lh-lg">
+                                        <li><a href="" style={{ textDecoration: "none" }}>Resident individual</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Minor</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Non Resident Indian (NRI)</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Company, Partnership, HUF and LLP</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Glossary</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -45,14 +45,14 @@ export default function CreateTicket() {
                                 </div>
                             </div>
                             <div className="collapse" id="collapseExample2" style={{ width: "98%", margin: "auto" }}>
-                                <div className="card card-body">
-                                    <ul>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Your Profile</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Account modification</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Client Master Report (CMR) and Depository Participant (DP)</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Nomination</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Transfer and conversion of securities</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>General</li></a>
+                                <div className="card card-body border-0 shadow-sm mt-2">
+                                    <ul className="list-unstyled lh-lg">
+                                        <li><a href="" style={{ textDecoration: "none" }}>Your Profile</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Account modification</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Client Master Report (CMR) and Depository Participant (DP)</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Nomination</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Transfer and conversion of securities</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>General</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -71,14 +71,14 @@ export default function CreateTicket() {
                                 </div>
                             </div>
                             <div className="collapse" id="collapseExample3" style={{ width: "98%", margin: "auto" }}>
-                                <div className="card card-body">
-                                    <ul>
-                                        <a href="" style={{ textDecoration: "none" }}><li>IPO</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Trading FAQs</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Margin Trading Facility (MTF) and Margins</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Charts and orders</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Alerts and Nudges</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>General</li></a>
+                                <div className="card card-body border-0 shadow-sm mt-2">
+                                    <ul className="list-unstyled lh-lg">
+                                        <li><a href="" style={{ textDecoration: "none" }}>IPO</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Trading FAQs</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Margin Trading Facility (MTF) and Margins</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Charts and orders</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Alerts and Nudges</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>General</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -97,12 +97,12 @@ export default function CreateTicket() {
                                 </div>
                             </div>
                             <div className="collapse" id="collapseExample4" style={{ width: "98%", margin: "auto" }}>
-                                <div className="card card-body">
-                                    <ul>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Add money</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Withdraw money</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Add bank accounts</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>eMandates</li></a>
+                                <div className="card card-body border-0 shadow-sm mt-2">
+                                    <ul className="list-unstyled lh-lg">
+                                        <li><a href="" style={{ textDecoration: "none" }}>Add money</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Withdraw money</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Add bank accounts</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>eMandates</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -121,14 +121,14 @@ export default function CreateTicket() {
                                 </div>
                             </div>
                             <div className="collapse" id="collapseExample5" style={{ width: "98%", margin: "auto" }}>
-                                <div className="card card-body">
-                                    <ul>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Portfolio</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Corporate actions</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Funds statement</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Reports</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Profile</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Segments</li></a>
+                                <div className="card card-body border-0 shadow-sm mt-2">
+                                    <ul className="list-unstyled lh-lg">
+                                        <li><a href="" style={{ textDecoration: "none" }}>Portfolio</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Corporate actions</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Funds statement</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Reports</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Profile</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Segments</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -147,33 +147,33 @@ export default function CreateTicket() {
                                 </div>
                             </div>
                             <div className="collapse" id="collapseExample6" style={{ width: "98%", margin: "auto" }}>
-                                <div className="card card-body">
-                                    <ul>
-                                        <a href="" style={{ textDecoration: "none", paddingBottom: "5vh" }}><li>Mutual funds</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>National Pension Scheme (NPS)</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>FixedDeposit (FD)</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Features on Coin</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>Payments and Orders</li></a>
-                                        <a href="" style={{ textDecoration: "none" }}><li>General</li></a>
+                                <div className="card card-body border-0 shadow-sm mt-2">
+                                    <ul className="list-unstyled lh-lg pb-3">
+                                        <li><a href="" style={{ textDecoration: "none" }}>Mutual funds</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>National Pension Scheme (NPS)</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>FixedDeposit (FD)</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Features on Coin</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>Payments and Orders</a></li>
+                                        <li><a href="" style={{ textDecoration: "none" }}>General</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-                    <div className="col-3" style={{ marginLeft: "-6rem", marginTop: "2.6rem" }}>
-                        <div className="updates" style={{ borderLeft: "8px solid orange", backgroundColor: "#fff4e6" }}>
-                            <ul>
-                                <a href=""><li style={{ fontSize: "1.1rem", paddingTop: "1rem"}}>Surveillance measure on scrips - October 2025</li></a>
-                                <a href=""><li style={{ fontSize: "1.1rem", paddingTop: "1rem", paddingBottom: "1rem"}}>Rights Entitlements listing in October 2025</li></a>
+                    {/* FIX: Changed col-3 to col-12 col-md-4 and REMOVED the negative marginLeft */}
+                    <div className="col-12 col-md-4 p-3 p-md-4 mt-4 mt-md-0">
+                        <div className="updates mb-4" style={{ borderLeft: "8px solid orange", backgroundColor: "#fff4e6", padding: "1rem" }}>
+                            <ul className="list-unstyled m-0">
+                                <li className="mb-3"><a href="" style={{ fontSize: "1.1rem", textDecoration: "none", color: "#387ed1" }}>Surveillance measure on scrips - October 2025</a></li>
+                                <li><a href="" style={{ fontSize: "1.1rem", textDecoration: "none", color: "#387ed1" }}>Rights Entitlements listing in October 2025</a></li>
                             </ul>
                         </div>
 
                         <div className="quick-links">
-                            <p style={{border: "2px solid #f6f6f6", padding: "1rem", backgroundColor: "#f6f6f6"}}>Quick Links</p>
-                            <p style={{border: "2px solid #f6f6f6", padding: "1rem", marginTop: "-1rem"}}><a href="" style={{textDecoration: "none", marginBottom: "1rem"}}>1. Track account opening</a></p>
-                            <p style={{border: "2px solid #f6f6f6", padding: "1rem", marginTop: "-1rem"}}><a href="" style={{textDecoration: "none", width: "100px"}}>2. Track segment activation</a></p>
+                            <p style={{border: "2px solid #f6f6f6", padding: "1rem", backgroundColor: "#f6f6f6", fontWeight: "bold"}}>Quick Links</p>
+                            <p style={{border: "2px solid #f6f6f6", padding: "1rem", marginTop: "-1rem"}}><a href="" style={{textDecoration: "none"}}>1. Track account opening</a></p>
+                            <p style={{border: "2px solid #f6f6f6", padding: "1rem", marginTop: "-1rem"}}><a href="" style={{textDecoration: "none"}}>2. Track segment activation</a></p>
                             <p style={{border: "2px solid #f6f6f6", padding: "1rem", marginTop: "-1rem"}}><a href="" style={{textDecoration: "none"}}>3. Intraday margins</a></p>
                             <p style={{border: "2px solid #f6f6f6", padding: "1rem", marginTop: "-1rem"}}><a href="" style={{textDecoration: "none"}}>4. Kite user manual</a></p>
                             <p style={{border: "2px solid #f6f6f6", padding: "1rem", marginTop: "-1rem"}}><a href="" style={{textDecoration: "none"}}>5. Learn how to create a ticket</a></p>

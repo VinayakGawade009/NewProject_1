@@ -1,10 +1,9 @@
 export default function Stats() {
-
     return (
         <>
-            <div className="container p-5">
-                <div className="row p-5">
-                    <div className="col-5 p-5">
+            <div className="container p-3 p-md-5">
+                <div className="row p-3 p-md-5 align-items-center">
+                    <div className="col-12 col-md-5 p-3 p-md-5">
                         <h1 className="fs-2 mb-5">Trust with confidence</h1>
 
                         <h2 className="fs-4 ">Customer-first always</h2>
@@ -18,21 +17,19 @@ export default function Stats() {
                         
                         <h2 className="fs-4 ">Do better with money</h2>
                         <p className="text-muted">With initiatives like Nudge and Kill Switch, we don't just facilitate transactions, but actively help you do better with your money.</p>
-                        
                     </div>
                     
-                    <div className="col-7">
-                        <img src="media/images/ecosystem.png" alt="" style={{width: "100%"}} className="mb-3 mt-5"/>
-                        <div className="text-center">
-                            <a href=""  style={{textDecoration: "none"}}>Explore our products <i class="fa-solid fa-arrow-right"></i></a>
-                            <a href="" className=" mx-5" style={{textDecoration: "none"}}>Try Kite demo <i class="fa-solid fa-arrow-right"></i></a>
+                    <div className="col-12 col-md-7 text-center mt-4 mt-md-0">
+                        <img src="media/images/ecosystem.png" alt="Ecosystem" className="img-fluid mb-3" />
+                        <div>
+                            <a href="" style={{textDecoration: "none"}}>Explore our products <i className="fa-solid fa-arrow-right"></i></a>
+                            <a href="" className="ms-md-5 d-block d-md-inline mt-3 mt-md-0" style={{textDecoration: "none"}}>Try Kite demo <i className="fa-solid fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div className="row">
-                        <img src="media/images/pressLogos.png" alt="Press Logo" style={{width: "65%", margin: "auto"}}/>
-
+                    
+                    <div className="col-12 text-center mt-5">
+                        <img src="media/images/pressLogos.png" alt="Press Logo" className="img-fluid" style={{width: "65%", margin: "auto"}}/>
                     </div>
-
                 </div>
             </div>
         </>

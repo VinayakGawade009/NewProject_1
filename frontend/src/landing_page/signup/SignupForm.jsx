@@ -1,44 +1,32 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function SignupForm() {
-  // const navigate = useNavigate(); // As we have to navigate to different app we don't need this
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
     username: "",
   });
   const { email, password, username } = inputValue;
+  
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
+    setInputValue({ ...inputValue, [name]: value });
   };
 
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-right",
-    });
+  const handleError = (err) => toast.error(err, { position: "bottom-left" });
+  const handleSuccess = (msg) => toast.success(msg, { position: "bottom-right" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
         "http://localhost:3002/auth/signup",
-        {
-          ...inputValue,
-        },
+        { ...inputValue },
         { withCredentials: true }
       );
-      console.log(data);
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
@@ -49,38 +37,34 @@ export default function SignupForm() {
         handleError(message);
       }
     } catch (error) {
-      console.log(error);
-      if (error.response && error.response.data && error.response.data.message) { // if specific error occured
+      if (error.response && error.response.data && error.response.data.message) { 
         handleError(error.response.data.message);
-      }
-      // If the server crashed or network failed
-      else {
+      } else {
         handleError("Signup failed. Please try again.");
       }
     }
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-      username: "",
-    });
+    setInputValue({ email: "", password: "", username: "" });
   };
+
   return (
     <>
-      <div className="container p-5" style={{ marginTop: "-10rem" }}>
-        <div className="row p-5 d-flex flex-wrap">
-          <div className="col-7 p-5">
+      {/* FIX: Removed the negative marginTop */}
+      <div className="container p-3 p-md-5">
+        <div className="row p-3 p-md-5 d-flex flex-wrap align-items-center">
+          
+          {/* FIX: Changed col-7 to col-12 col-md-7. Image will stack on top for mobile. */}
+          <div className="col-12 col-md-7 p-3 p-md-5 text-center text-md-start">
             <img src="media/images/signupimg1.svg" className="img-fluid" alt="signup" />
           </div>
-          <div className="col-4  p-3 d-flex flex-column justify-content-center">
-            <h1 className="fs-3 mb-4">Signup now</h1>
-
+          
+          {/* FIX: Changed col-4 to col-12 col-md-4 */}
+          <div className="col-12 col-md-4 offset-md-1 p-3 d-flex flex-column justify-content-center mt-4 mt-md-0">
+            <h1 className="fs-3 mb-4 text-center text-md-start">Signup now</h1>
 
             <div className="form_container">
               <form onSubmit={handleSubmit}>
                 <div className="mb-2">
                   <label htmlFor="email" style={{ fontSize: "1.1rem" }}>Email</label>
-                  <br />
                   <input
                     style={{ width: "100%", height: "2.5rem" }}
                     type="email"
@@ -93,7 +77,6 @@ export default function SignupForm() {
                 </div>
                 <div className="mb-2">
                   <label htmlFor="username" style={{ fontSize: "1.1rem" }}>Username</label>
-                  <br />
                   <input
                     style={{ width: "100%", height: "2.5rem" }}
                     type="text"
@@ -107,7 +90,6 @@ export default function SignupForm() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="password" style={{ fontSize: "1.1rem" }}>Password</label>
-                  <br />
                   <input
                     style={{ width: "100%", height: "2.5rem" }}
                     type="password"
@@ -119,11 +101,13 @@ export default function SignupForm() {
                     minLength={3}
                   />
                 </div>
-                <button type="submit" className="p-2 btn fs-5 mb-2" style={{ width: "37%", margin: "0 auto", backgroundColor: "#387ed1", color: "white", borderRadius: "3px" }}>Submit</button>
-                <br />
-                <span>
-                  Already have an account? <Link to={"/login"}>Login</Link>
-                </span>
+                {/* FIX: Changed width from 37% to 100% on mobile using Bootstrap w-100 */}
+                <button type="submit" className="p-2 btn fs-5 mb-3 w-100" style={{ backgroundColor: "#387ed1", color: "white", borderRadius: "3px" }}>Submit</button>
+                <div className="text-center text-md-start">
+                  <span>
+                    Already have an account? <Link to={"/login"}>Login</Link>
+                  </span>
+                </div>
               </form>
               <ToastContainer />
             </div>
@@ -132,5 +116,5 @@ export default function SignupForm() {
         </div>
       </div>
     </>
-  )
+  );
 }

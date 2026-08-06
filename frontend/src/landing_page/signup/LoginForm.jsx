@@ -1,44 +1,32 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import HeroForLogin from "./HeroForLogin";
 
 export default function LoginForm() {
-  // const navigate = useNavigate(); // As we have to navigate to different app we don't need this
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
   const { email, password } = inputValue;
+  
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
+    setInputValue({ ...inputValue, [name]: value });
   };
 
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-left",
-    });
+  const handleError = (err) => toast.error(err, { position: "bottom-left" });
+  const handleSuccess = (msg) => toast.success(msg, { position: "bottom-left" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
         "http://localhost:3002/auth/login",
-        {
-          ...inputValue,
-        },
+        { ...inputValue },
         { withCredentials: true }
       );
-      console.log(data);
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
@@ -49,29 +37,28 @@ export default function LoginForm() {
         handleError(message);
       }
     } catch (error) {
-      console.log(error);
-      if (error.response && error.response.data && error.response.data.message) { // if specific error occured
+      if (error.response && error.response.data && error.response.data.message) { 
         handleError(error.response.data.message);
-      }
-      // If the server crashed or network failed
-      else {
+      } else {
         handleError("Login failed. Please try again.");
       }
     }
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-    });
+    setInputValue({ email: "", password: "" });
   };
 
   return (
     <>
       <HeroForLogin />
-      <div className="container p-5" style={{ marginTop: "-9rem" }}>
-        <div className="row p-5 d-flex flex-wrap">
-          <div className="col-5 p-3 d-flex flex-column justify-content-center">
-            <h1 className="fs-3 mb-4">Login</h1>
+      
+      {/* FIX: Removed the negative marginTop */}
+      <div className="container p-3 p-md-5">
+        
+        {/* FIX: Used flex-column-reverse to put form above image on mobile */}
+        <div className="row p-3 p-md-5 d-flex flex-wrap align-items-center flex-column-reverse flex-md-row">
+          
+          {/* FIX: Changed col-5 to col-12 col-md-5 */}
+          <div className="col-12 col-md-5 p-3 d-flex flex-column justify-content-center mt-4 mt-md-0">
+            <h1 className="fs-3 mb-4 text-center text-md-start">Login</h1>
 
             <div className="form_container">
               <form onSubmit={handleSubmit}>
@@ -100,21 +87,22 @@ export default function LoginForm() {
                     minLength={3}
                   />
                 </div>
-                <button type="submit" className="p-2 btn fs-5 mb-2" style={{ width: "37%", margin: "0 auto", backgroundColor: "#387ed1", color: "white", borderRadius: "3px" }}>Submit</button>
-                <br />
-                <span>
-                  Already have an account? <Link to={"/signup"}>Signup</Link>
-                </span>
+                {/* FIX: Replaced 37% width with w-100 class for full width on mobile */}
+                <button type="submit" className="p-2 btn fs-5 mb-3 w-100" style={{ backgroundColor: "#387ed1", color: "white", borderRadius: "3px" }}>Submit</button>
+                <div className="text-center text-md-start">
+                  <span>
+                    Don't have an account? <Link to={"/signup"}>Signup</Link>
+                  </span>
+                </div>
               </form>
               <ToastContainer />
             </div>
 
           </div>
 
-          {/* <div className="col-1"></div> */}
-
-          <div className="col-7 p-5">
-            <img src="/media/images/kite.svg" className="img-fluid" alt="kite" />
+          {/* FIX: Changed col-7 to col-12 col-md-6 offset-md-1 */}
+          <div className="col-12 col-md-6 offset-md-1 p-3 p-md-5 text-center text-md-end">
+            <img src="/media/images/kite.svg" className="img-fluid" alt="kite" style={{ maxWidth: "400px" }} />
           </div>
         </div>
       </div>

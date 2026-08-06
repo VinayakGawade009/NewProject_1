@@ -6,7 +6,7 @@ export default function Footer() {
         <>
             <footer className="border-top" style={{ backgroundColor: "#fbfbfb" }}>
 
-                <div className="container p-5mt-5" >
+                <div className="container p-2 mt-5" >
                     <div className="footerLinks row mb-5 p-5">
                         <div className="col-3" style={{ fontSize: ".8rem" }}>
                             <img src="media/images/logo.svg" style={{ width: "50%" }} alt="Logo" />

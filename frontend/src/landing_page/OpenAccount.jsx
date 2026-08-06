@@ -11,7 +11,15 @@ export default function OpenAccount() {
 
                     <p className="fs-5 mb-5">Modern platforms and apps, ₹0 investments, and flat ₹20 intraday and F&O trades.</p>
 
-                    <Link to="/signup"><button className="p-2 btn fs-5" style={{width: "27%", margin: "0 auto", backgroundColor: "#387ed1", color: "white", borderRadius: "3px"}}>Sign up for free</button></Link>
+                    <Link to="/signup">
+                        {/* FIX: Removed the 27% width. Added 'px-4' for horizontal padding */}
+                        <button 
+                            className="p-2 btn fs-5 px-4" 
+                            style={{ margin: "0 auto", backgroundColor: "#387ed1", color: "white", borderRadius: "3px" }}
+                        >
+                            Sign up for free
+                        </button>
+                    </Link>
                 </div>
             </div>
         </>

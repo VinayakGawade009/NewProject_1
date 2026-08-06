@@ -29,3 +29,23 @@
     padding: 0rem 2rem 0.5rem 0rem;
     font-size: 1.175rem;
 }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+    .footerLinks {
+        flex-direction: column; /* Stacks the columns vertically */
+        gap: 30px; /* Adds breathing room between the lists */
+    }
+    
+    /* Forces Bootstrap columns to take full width on mobile */
+    .footerLinks .col-3, 
+    .footerLinks .col {
+        width: 100%; 
+        text-align: left;
+    }
+
+    /* Shrinks the huge padding on mobile screens */
+    .p-5 {
+        padding: 2rem !important; 
+    }
+}

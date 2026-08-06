@@ -1,83 +1,71 @@
 export default function Universe() {
-
     return (
         <>
-            <div className="container p-5">
-                <div className="row p-5 text-center" style={{fontSize: "0.8rem"}}>
+            <div className="container p-3 p-md-5">
+                <div className="row p-3 p-md-5 text-center" style={{fontSize: "0.8rem"}}>
                     <h1 className="fs-4 mb-4">The Zerodha Universe</h1>
-                    <p className="text-muted">Extend your trading and investment experience even further with our partner platforms</p>
+                    <p className="text-muted mb-5">Extend your trading and investment experience even further with our partner platforms</p>
 
-                    <div className="col-4 p-3 mt-5">
-                        
-                        <img src="media/images/zerodhaFundhouse.png" className="mb-4" style={{width: "57%"}} alt="" />
+                    <div className="col-12 col-md-4 p-3 mt-4">
+                        <img src="media/images/zerodhaFundhouse.png" className="img-fluid mb-4" style={{maxWidth: "150px"}} alt="" />
                         <p className="text-small text-muted">
-                            Our asset management venture
-                            <br />
-                            that is creating simple and transparent index
-                            <br />
+                            Our asset management venture<br />
+                            that is creating simple and transparent index<br />
                             funds to help you save for your goals.
                         </p>
-
                     </div>
 
-                    <div className="col-4 p-3 mt-5">
-                        <img src="media/images/sensibullLogo.svg" style={{width: "60%", marginBottom: "2.4rem"}} alt="" />
+                    <div className="col-12 col-md-4 p-3 mt-4">
+                        <img src="media/images/sensibullLogo.svg" className="img-fluid mb-4" style={{maxWidth: "180px"}} alt="" />
                         <p className="text-small text-muted">
-                            Our asset management venture
-                            <br />
-                            that is creating simple and transparent index
-                            <br />
-                            funds to help you save for your goals.
-                        </p>
-                        
-                    </div>
-
-                    <div className="col-4 p-3 mt-5">
-                        <img src="media/images/tijori.svg" style={{width: "45%", marginBottom: "1.2rem"}} alt="" />
-                        <p className="text-small text-muted">
-                            Options trading platform that lets you
-                            <br />
-                            create strategies, analyze positions, and examine
-                            <br />
+                            Options trading platform that lets you<br />
+                            create strategies, analyze positions, and examine<br />
                             data points like open interest, FII/DII, and more.
                         </p>
                     </div>
 
-                    <div className="col-4 p-3 mt-5">
-                        <img src="media/images/streakLogo.png" style={{width: "47%", marginBottom: "1.4rem"}} alt="" />
+                    <div className="col-12 col-md-4 p-3 mt-4">
+                        <img src="media/images/tijori.svg" className="img-fluid mb-4" style={{maxWidth: "130px"}} alt="" />
                         <p className="text-small text-muted">
-                            Options trading platform that lets you
-                            <br />
-                            create strategies, analyze positions, and examine
-                            <br />
-                            data points like open interest, FII/DII, and more.
-                        </p>
-
-                    </div>
-
-                    <div className="col-4 p-3 mt-5">
-                        <img src="media/images/smallcaseLogo.png" style={{width: "60%", marginBottom: "1.4rem"}} alt="" />
-                        <p className="text-small text-muted">
-                            Investment research platform
-                            <br />
-                            that offers detailed insights on stocks,
-                            <br />
+                            Investment research platform<br />
+                            that offers detailed insights on stocks,<br />
                             sectors, supply chains, and more.
                         </p>
                     </div>
 
-                    <div className="col-4 p-3 mt-5">
-                        <img src="media/images/dittoLogo.png" style={{width: "45%", marginBottom: "1rem"}} alt="" />
+                    <div className="col-12 col-md-4 p-3 mt-4">
+                        <img src="media/images/streakLogo.png" className="img-fluid mb-4" style={{maxWidth: "140px"}} alt="" />
                         <p className="text-small text-muted">
-                            Investment research platform
-                            <br />
-                            that offers detailed insights on stocks,
-                            <br />
-                            sectors, supply chains, and more.
+                            Algo & strategy platform that lets you<br />
+                            create, backtest, and deploy<br />
+                            trading strategies code-free.
                         </p>
-
                     </div>
-                    <button className="p-2 btn fs-5 mt-4" style={{width: "27%", margin: "0 auto", backgroundColor: "#387ed1", color: "white", borderRadius: "3px"}}>Sign up for free</button>
+
+                    <div className="col-12 col-md-4 p-3 mt-4">
+                        <img src="media/images/smallcaseLogo.png" className="img-fluid mb-4" style={{maxWidth: "180px"}} alt="" />
+                        <p className="text-small text-muted">
+                            Thematic investing platform<br />
+                            that helps you invest in diversified<br />
+                            baskets of stocks on ETFs.
+                        </p>
+                    </div>
+
+                    <div className="col-12 col-md-4 p-3 mt-4">
+                        <img src="media/images/dittoLogo.png" className="img-fluid mb-4" style={{maxWidth: "130px"}} alt="" />
+                        <p className="text-small text-muted">
+                            Personalized advice on life<br />
+                            and health insurance. No spam<br />
+                            and no mis-selling.
+                        </p>
+                    </div>
+                    
+                    {/* Button Fix */}
+                    <div className="col-12 text-center mt-5">
+                        <button className="p-2 btn fs-5 px-4" style={{backgroundColor: "#387ed1", color: "white", borderRadius: "3px"}}>
+                            Sign up for free
+                        </button>
+                    </div>
 
                 </div>
             </div>

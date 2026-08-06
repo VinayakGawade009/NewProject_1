@@ -70,3 +70,12 @@ button:focus-visible {
 .nav-link {
   margin-left: 40px;
 }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 991px) {
+  .nav-link {
+    margin-left: 0px; /* Removes the gap in the mobile dropdown */
+    text-align: center; /* Centers the links nicely */
+    padding: 10px 0;
+  }
+}
