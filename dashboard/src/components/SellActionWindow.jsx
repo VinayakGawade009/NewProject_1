@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css"; // reuse same css for now
@@ -11,10 +12,14 @@ const SellActionWindow = ({ uid }) => {
   const [productType, setProductType] = useState("CNC");
 
   const { closeSellWindow, triggerRefresh } = useContext(GeneralContext);
+  
+  // Toast handlers
+  const handleError = (err) => toast.error(err, { position: "bottom-center" });
+  const handleSuccess = (msg) => toast.success(msg, { position: "bottom-center" });
 
   const handleSellClick = async () => {
     if (stockQuantity <= 0 || stockPrice <= 0) {
-      alert("Quantity and Price must be greater than 0");
+      handleError("Quantity and Price must be greater than 0");
       return;
     }
 
@@ -32,13 +37,17 @@ const SellActionWindow = ({ uid }) => {
       );
 
       if (response.data.success) {
-        alert(response.data.message);
+        handleSuccess(response.data.message);
         triggerRefresh();
-        closeSellWindow();
+        
+        // Delay closing so the user can see the toast
+        setTimeout(() => {
+            closeBuyWindow();
+        }, 1000);
       }
     } catch (error) {
       const errorMsg = error.response?.data?.message || "Something went wrong";
-      alert(errorMsg);
+      handleError(errorMsg);
     }
   };
 

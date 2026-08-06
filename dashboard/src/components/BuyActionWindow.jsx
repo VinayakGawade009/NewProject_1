@@ -1,10 +1,9 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 import GeneralContext from "./GeneralContext";
-
 import "./BuyActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
@@ -14,9 +13,13 @@ const BuyActionWindow = ({ uid }) => {
 
   const { closeBuyWindow, triggerRefresh } = useContext(GeneralContext);
 
+  // Toast handlers
+  const handleError = (err) => toast.error(err, { position: "bottom-center" });
+  const handleSuccess = (msg) => toast.success(msg, { position: "bottom-center" });
+
   const handleBuyClick = async () => {
     if (stockQuantity <= 0 || stockPrice <= 0) {
-      alert("Quantity and Price must be greater than 0");
+      handleError("Quantity and Price must be greater than 0");
       return;
     }
 
@@ -34,16 +37,18 @@ const BuyActionWindow = ({ uid }) => {
       );
 
       if (response.data.success) {
-        alert(response.data.message);
+        handleSuccess(response.data.message);
         triggerRefresh();
-        closeBuyWindow();
+        
+        // Delay closing so the user can see the toast
+        setTimeout(() => {
+            closeBuyWindow();
+        }, 1000);
       }
     } catch (error) {
-      // Safely extract backend error message
       const errorMsg = error.response?.data?.message || "Something went wrong";
-      alert(errorMsg);
+      handleError(errorMsg);
     }
-
   };
 
   const handleCancelClick = () => {
@@ -118,6 +123,8 @@ const BuyActionWindow = ({ uid }) => {
             </Link>
           </div>
         </div>
+        {/* Mount ToastContainer inside the modal */}
+        <ToastContainer />
       </div>
     </div>
   );
