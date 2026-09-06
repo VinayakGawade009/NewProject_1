@@ -1,261 +1,208 @@
-#  Stock Trading & Portfolio Management Platform
+# Stock Trading & Portfolio Management Platform
 
 A full-stack **stock trading and portfolio management platform** inspired by Zerodha, built using the **MERN stack**.  
 The project includes a **public landing website**, **secure authentication**, and an **interactive trading dashboard** with portfolio analytics.
 
-## 📋 Table of Contents
+### 🔗 Live Demos
+* **Landing Page (Frontend):** [https://zerodha-frontend-eight-alpha.vercel.app](https://zerodha-frontend-eight-alpha.vercel.app)
+* **Trading Dashboard:** [https://zerodha-dashboard-topaz.vercel.app](https://zerodha-dashboard-topaz.vercel.app) -> for this you have to be signed in first
+* **Backend API:** Hosted on Render 
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation & Setup](#installation--setup)
-- [Configuration](#configuration)
-- [Running the Application](#running-the-application)
-- [Project Structure](#project-structure)
-- [API Routes](#api-routes)
-- [Usage Guide](#usage-guide)
-- [Testing](#testing)
-- [Security Features](#security-features)
-- [Contributing](#contributing)
-- [License](#license)
-- [Demo](#demo)
+---
+
+## Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Installation & Setup](#-installation--setup)
+- [Environment Variables](#-environment-variables)
+- [Running Locally](#-running-the-application)
+- [Deployment Architecture](#-deployment-architecture)
+- [API Routes](#-api-routes)
+- [Security Features](#-security-features)
+- [License](#-license)
+
+---
 
 ## ✨ Features
 
 ### Authentication
-- User signup & login using **JWT**
+- User signup & login using **JWT (JSON Web Tokens)**
 - Password hashing with **bcrypt**
-- HTTP-only cookies
-- Protected routes for dashboard access
+- Cross-origin, HTTP-only cookies for secure session management
+- Protected routes to prevent unauthorized dashboard access
 
 ### Landing Website
-- Zerodha-inspired UI
-- Responsive pages:
-  - Home
-  - Products
-  - Pricing
-  - About
-  - Support
-  - Signup / Login
-- Component-based React architecture
+- Clean, Zerodha-inspired UI/UX
+- Responsive pages: Home, Products, Pricing, About, Support, Signup, and Login
+- Modern component-based React architecture using Vite
 
 ### Trading Dashboard
-- Portfolio overview
-- Holdings, Orders, Positions
-- Buy / Sell simulation
-- Watchlist
+- Real-time portfolio overview and account balance
+- Dynamic Holdings, Orders, and Positions tracking
+- Buy / Sell execution simulation
 - Interactive charts using **Chart.js**
-- Context API for state management
 
-### Backend APIs
-- RESTful APIs using Express
-- MongoDB schemas for users and trading data
-- JWT authentication middleware
-- Modular MVC structure
+---
 
-## 📦 Prerequisites
+## Tech Stack
 
-- Node.js (v18+ recommended)
-- MongoDB (Local or Atlas)
-- npm
-
-
-## 🛠️ Tech Stack
-
-### Frontend
+**Frontend & Dashboard:**
 - React (Vite)
 - React Router DOM
-- Axios
+- Axios (for API requests)
 - Chart.js & react-chartjs-2
-- CSS
+- React Toastify (for notifications)
+- CSS / Bootstrap
 
-### Dashboard
-- React (Vite)
-- Context API
-- Chart.js
-
-### Backend
-- Node.js
-- Express.js
+**Backend:**
+- Node.js & Express.js
 - MongoDB & Mongoose
-- JWT
-- bcrypt
-- dotenv
+- JWT (Cookie-based Auth)
+- bcryptjs
+- CORS & dotenv
 
+---
 
 ## 📁 Project Structure
-
-```
-NewProject_1/
-├── backend/
-│ ├── controllers/
-│ ├── middlewares/
-│ ├── model/
-│ ├── routes/
-│ ├── schemas/
-│ ├── utils/
-│ └── index.js
+This repository is set up as a monorepo containing three distinct applications:
+```text
+Stock-Trading-Platform/
+├── backend/                # Node.js/Express API server
+│   ├── controllers/
+│   ├── middlewares/
+│   ├── model/
+│   ├── routes/
+│   └── index.js
 │
-├── frontend/
-│ ├── src/
-│ │ ├── landing_page/
-│ │ ├── test/
-│ │ └── App.jsx
-│ └── vite.config.js
+├── frontend/               # Public-facing landing & auth website
+│   ├── src/
+│   │   ├── landing_page/
+│   │   └── App.jsx
+│   └── vercel.json         # SPA Routing configuration
 │
-├── dashboard/
-│ ├── src/
-│ │ ├── components/
-│ │ └── data/
-│ └── vite.config.js
-│
-└── README.md
+└── dashboard/              # Protected trading dashboard
+    ├── src/
+    │   ├── components/
+    │   └── data/
+    └── vercel.json         # SPA Routing configuration
 ```
 
-
-## 🚀 Installation & Setup
-
-### 1️⃣ Clone the Repository
+---
+## Installation & Setup
+1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/Stock-Trading-Platform.git
-cd Stock-Trading-Platform
+git clone [https://github.com/your-username/stock-trading-platform.git](https://github.com/your-username/stock-trading-platform.git)
+cd stock-trading-platform
 ```
-### 2️⃣ Install Dependencies
-- Backend
+
+2. Install Dependencies
+You will need to install dependencies for all three directories:
+
 ```bash
-cd backend
-npm install
+# Install backend dependencies
+cd backend && npm install
+
+# Install frontend dependencies
+cd ../frontend && npm install
+
+# Install dashboard dependencies
+cd ../dashboard && npm install
 ```
 
-- Frontend (Landing Website)
-```bash
-cd frontend
-npm install
+---
+## Environment Variables
+To run this project, you will need to add environment variables to all three folders. Create a .env file in the root of each respective directory:
+
+backend/.env
+
 ```
-
-- Dashboard
-```bash
-cd dashboard
-npm install
-```
-
-### 3️⃣🔧 Environment Variables
-Create a ```.env``` file inside the backend directory:
-
-```env
 PORT=3002
-MONGO_URI=your_mongodb_connection_string
-TOKEN_KEY=your_jwt_secret
+MONGO_URL=your_mongodb_atlas_connection_string
+NODE_ENV=development
 ```
-Make sure MongoDB is running locally or use MongoDB Atlas.
 
-## ▶️ Running the Application
-Start Backend
+frontend/.env
+```
+VITE_BACKEND_URL=http://localhost:3002
+VITE_DASHBOARD_URL=http://localhost:5174
+```
+
+dashboard/.env
+```
+VITE_BACKEND_URL=http://localhost:3002
+VITE_FRONTEND_URL=http://localhost:5173
+```
+
+---
+## Running the Application
+Open three separate terminals and run the following commands to start the development servers:
+
+**Terminal 1: Backend**
 ```bash
 cd backend
 npm start
 ```
-- Start Frontend (Landing Website)
+
+**Terminal 2: Frontend**
 ```bash
 cd frontend
 npm run dev
 ```
 
-- Start Dashboard
+**Terminal 3: Dashboard**
 ```bash
 cd dashboard
 npm run dev
 ```
 
-## 🔌 API Routes
+---
+## ☁️ Deployment Architecture
+This platform is fully configured for cloud deployment:
 
-### Auth
-- POST /auth/signup
-- POST /auth/login
+- **Frontend & Dashboard (Vercel)**: Both React applications are deployed independently on Vercel. A vercel.json file is included in each to handle React Router SPA rewrites.
 
-### Dashboard
-- GET /holdings
-- GET /orders
-- GET /positions
+- **Backend (Render)**: The Node.js server is hosted on Render as a Web Service.
 
+- **Database (MongoDB Atlas)**: Data is persisted securely in the cloud using MongoDB Atlas.
 
-## 🔁 Application Flow
-1. User lands on the Landing Website
-
-2. User signs up or logs in
-
-3. JWT token is issued and stored in cookies
-
-4. User is redirected to the Dashboard
-
-5. Protected routes verify authentication
-
-6. Dashboard fetches user-specific data
-
-## 🧪 Testing
-- Unit testing setup using Vitest
-
-- React Testing Library configured
-
-- Sample component tests included (Hero.test.jsx)
-
-## 🔐 Security Features
-- Password hashing with bcrypt
-
-- JWT-based authentication
-
-- HTTP-only cookies
-
-- Authentication middleware
-
-- Protected routes
-
-- Input validation on backend
-
-## 🤝 Contributing
-- Contributions are welcome!
-
-1. Fork the repository
-
-2. Create a feature branch
-```bash
-git checkout -b feature/your-feature
-```
-
-3. Commit changes
-```bash
-git commit -m "Add your feature"
-```
-
-4. Push to branch
-```bash
-git push origin feature/your-feature
-```
-
-5. Open a Pull Request
-
-## 📝 License
-This project is licensed under the ISC License - see the LICENSE file for details.
-
-## 📞 Support
-If you encounter any issues or have questions, please:
-- Open an issue on GitHub
-- Contact the project maintainer
-- Check the existing issues for solutions
-
-## 🙏 Acknowledgements
-- Inspired by Zerodha
-- React & Express documentation
-- Chart.js
-- MongoDB
-- Open-source community
-
-## 🔗 Demo
-
-Deployment coming soon.
+- **CORS & Cookies**: The backend is explicitly configured to accept cross-origin requests and handle SameSite="none" secure cookies between the Render and Vercel domains.
 
 ---
+## 🔌 API Routes
+**Authentication**
+- POST /auth/signup - Register a new user
 
-**Happy Coding!** 🚀
+- POST /auth/login - Authenticate user & set HTTP-only cookie
 
-⭐ If you find this project helpful, please consider giving it a star!
+- POST /auth/logout - Clear session cookie
+
+- GET /auth/me - Verify active user session
+
+**Trading Data**
+- GET /allHoldings - Fetch user's long-term holdings
+
+- GET /allPositions - Fetch user's active MIS positions
+
+- GET /allOrders - Fetch user's order history
+
+- POST /newOrder - Execute a new Buy order
+
+- POST /sellOrder - Execute a Sell order
+
+---
+## 🔐 Security Features
+- Password Hashing: Passwords are never stored in plaintext (bcrypt).
+
+- Stateless Sessions: JWTs are used for authentication.
+
+- XSS Protection: Tokens are stored in httpOnly cookies, making them inaccessible to malicious JavaScript.
+
+- CSRF Protection: Configured via sameSite cookie policies and explicit CORS origin whitelisting.
+
+---
+## 📝 License
+This project is licensed under the ISC License.
+
+⭐ If you find this project helpful or inspiring, please consider giving it a star on GitHub! ⭐
